@@ -23,12 +23,14 @@ class CommentList extends React.Component {
     }
 
     componentDidMount() {
+        // const commentID = this.props.match.params.commentID;
+        // axios.get(`http://127.0.0.1:8000/api/${commentID}`)
         axios.get('http://127.0.0.1:8000/api/')
             .then(res => {
                 this.setState({
                     comments: res.data
                 });
-                console.log(res.data);
+                // console.log(res.data);
             })
     }
 
@@ -37,7 +39,10 @@ class CommentList extends React.Component {
             <div>
                 <Comments data={this.state.comments} />
                 <br />
-                <CustomForm />
+                <CustomForm 
+                    // requestType="put"
+                    // commentID={this.props.match.params.commentID} 
+                />
             </div>
         )
     }

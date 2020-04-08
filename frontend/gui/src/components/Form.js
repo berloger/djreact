@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
+import axios from 'axios';
 
 
 // const CustomForm = () => {
@@ -7,19 +8,40 @@ import { Form, Input, Button } from 'antd';
 
 class CustomForm extends React.Component {
 
-  handleFormSubmit = (event) => {
-    event.preventDefault();
+  handleFormSubmit = (event, requestType, commentID) => {
+    // event.preventDefault();
     const username = event.target.elements.username.value;
     const text = event.target.elements.text.value;
 
-    console.log(username, text);
+    // console.log(username, text);
+
+    switch (requestType) {
+      case 'post':
+        return axios.post('http://127.0.0.1:8000/api/', {
+          username: username,
+          text: text
+        })
+        .then(res => console.log(res))
+        .catch(error => console.error(error));
+      case 'put':
+        return axios.put('http://127.0.0.1:8000/api/${commentID}/', {
+          username: username,
+          text: text
+        })
+        .then(res => console.log(res))
+        .catch(error => console.error(error));
+    }
+
   }
 
   render() {
     return (
       <div>
         <Form 
-          onSubmit={this.handleFormSubmit}
+          onSubmit={(event) => this.handleFormSubmit(
+            event,
+            this.props.requestType,
+            this.props.commentID )}
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 12 }}
           layout="horizontal"
